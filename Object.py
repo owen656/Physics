@@ -3,9 +3,10 @@ if __name__ == "__main__":
     print("This is Object.py, please run Physics.py")
 
 import pygame
+import Physics
 
 gravity = 0.8
-friction = 0.8
+friction = 0.9
 
 class Sphere(pygame.sprite.Sprite):
     def __init__(self,position,radius,xspeed,yspeed):
@@ -25,7 +26,8 @@ class Sphere(pygame.sprite.Sprite):
         self.y += self.yspeed2
         self.rect.x = self.x
         self.rect.y = self.y
-
+        self.xspeed2 *= friction
+        self.yspeed2 *= friction
         self.yspeed2 += gravity
 
         if self.rect.bottom > self.screen_height:
@@ -41,7 +43,7 @@ class Sphere(pygame.sprite.Sprite):
 objects = pygame.sprite.Group()
 
 def add_object():
-    objects.add(Sphere((200,200),50,0,0))
+    objects.add(Sphere((200,200),50,5,0))
 
 def update(screen):
     objects.update(screen)
