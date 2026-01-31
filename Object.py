@@ -24,8 +24,7 @@ class Sphere(pygame.sprite.Sprite):
     def update(self,screen):
         self.x += self.xspeed
         self.y += self.yspeed
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x,self.rect.y = self.x, self.y
         self.xspeed *= friction
         self.yspeed *= friction
 
@@ -45,12 +44,12 @@ class Sphere(pygame.sprite.Sprite):
         if self.yspeed < 0.75 and self.yspeed > -0.75:
             self.yspeed = 0
         
-        pygame.draw.circle(screen, (255,0,0), (int(self.x),int(self.y)), self.radius)
+        pygame.draw.circle(screen, (255,0,0), (int(self.rect.x),int(self.rect.y)), self.radius)
 
 objects = pygame.sprite.Group()
 
 def add_object():
-    objects.add(Sphere((200,200),50,5,0))
+    objects.add(Sphere((200,200),radius=50,xspeed=0,yspeed=-20))
 
 def update(screen):
     objects.update(screen)
