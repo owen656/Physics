@@ -1,3 +1,0 @@
-import Physics
-
-Physics.run()
