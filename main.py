@@ -1,0 +1,3 @@
+import Physics
+
+Physics.run()
