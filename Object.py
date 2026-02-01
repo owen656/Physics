@@ -31,7 +31,7 @@ class Sphere(pygame.sprite.Sprite):
         self.yspeed *= friction
 
         self.xspeed *= 0.99
-        self.yspeed *= 0.95
+        self.yspeed *= 0.97
 
         if self.rect.bottom > self.screen_height:
             self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)*1.1
