@@ -32,9 +32,13 @@ class Sphere(pygame.sprite.Sprite):
         self.rect.x,self.rect.y = self.x, self.y
         self.xspeed *= friction
         self.yspeed *= friction
-
         self.xspeed *= 0.99
         self.yspeed *= 0.97
+
+        if self.xspeed == 0 and self.yspeed == 0:
+            if self.rect.bottom >= self.screen_height - 1:
+                self.yspeed += gravity * air_resistance * self.radius *  math.pi / 15
+                self.xspeed += random.uniform(-1,1)
 
         if self.rect.left <= 0:
             self.rect.left = 0
@@ -49,7 +53,7 @@ class Sphere(pygame.sprite.Sprite):
             self.rect.bottom = self.screen_height
             self.yspeed = -self.yspeed * bounciness * random.uniform(1-randomness, 1+randomness)
         else:
-            self.yspeed += gravity * air_resistance * self.radius *  math.pi // 15
+            self.yspeed += gravity * air_resistance * self.radius *  math.pi / 15
 
         if self.xspeed < 0.5 and self.xspeed > -0.5:
             self.xspeed = 0
@@ -59,15 +63,15 @@ class Sphere(pygame.sprite.Sprite):
         for _object in objects:
             if _object != self:
                 if pygame.sprite.collide_circle(self,_object):
-                    self.xspeed = -self.xspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
-                    self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
+                    self.xspeed = -self.xspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)*friction
+                    self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)*friction
                     self.whileloopcrashpreventer = 0
                     while pygame.sprite.collide_circle(self,_object):
                         self.x += self.xspeed/10
                         self.y += self.yspeed/10
                         self.rect.x,self.rect.y = self.x, self.y
                         self.whileloopcrashpreventer += 1
-                        if self.whileloopcrashpreventer > 100:
+                        if self.whileloopcrashpreventer > 200:
                             print("Physics.PhysicsObjectError: While loop crash preventer activated in collision detection.")
                             break
                     
