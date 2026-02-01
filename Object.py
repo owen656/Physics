@@ -1,7 +1,4 @@
 from __future__ import annotations
-if __name__ == "__main__":
-    print("This is Object.py, please run Physics.py")
-
 import pygame
 import Physics
 import math
@@ -33,14 +30,17 @@ class Sphere(pygame.sprite.Sprite):
         self.xspeed *= friction
         self.yspeed *= friction
 
+        self.xspeed *= 0.99
+        self.yspeed *= 0.97
+
         if self.rect.bottom > self.screen_height:
-            self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
+            self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)*1.1
         elif self.rect.top < 0:
-            self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
+            self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)*1.1
         elif self.rect.left < 0:
-            self.xspeed = -self.xspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
+            self.xspeed = -self.xspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)*1.1
         elif self.rect.left > self.screen_length:
-            self.xspeed = -self.xspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
+            self.xspeed = -self.xspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)*1.1
         else:
             self.yspeed += gravity * air_resistance * self.radius *  math.pi // 15
 
