@@ -4,9 +4,14 @@ if __name__ == "__main__":
 
 import pygame
 import Physics
+import math
+import random
 
-gravity = 0.8
-friction = 0.9
+gravity = 1.2
+friction = 1
+air_resistance = 0.2
+bounciness = 0.95
+randomness = 0.1
 
 class Sphere(pygame.sprite.Sprite):
     def __init__(self,position,radius,xspeed,yspeed):
@@ -29,27 +34,27 @@ class Sphere(pygame.sprite.Sprite):
         self.yspeed *= friction
 
         if self.rect.bottom > self.screen_height:
-            self.yspeed = -self.yspeed*friction
+            self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
         elif self.rect.top < 0:
-            self.yspeed = -self.yspeed*friction
+            self.yspeed = -self.yspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
         elif self.rect.left < 0:
-            self.xspeed = -self.xspeed*friction
+            self.xspeed = -self.xspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
         elif self.rect.left > self.screen_length:
-            self.xspeed = -self.xspeed*friction
+            self.xspeed = -self.xspeed*friction*(bounciness)*random.uniform(1-randomness,1+randomness)
         else:
-            self.yspeed += gravity
+            self.yspeed += gravity * air_resistance * self.radius *  math.pi // 15
 
-        if self.xspeed < 0.75 and self.xspeed > -0.75:
+        if self.xspeed < 0.5 and self.xspeed > -0.5:
             self.xspeed = 0
-        if self.yspeed < 0.75 and self.yspeed > -0.75:
+        if self.yspeed < 0.5 and self.yspeed > -0.5:
             self.yspeed = 0
         
         pygame.draw.circle(screen, (255,0,0), (int(self.rect.x),int(self.rect.y)), self.radius)
 
 objects = pygame.sprite.Group()
 
-def add_object():
-    objects.add(Sphere((200,200),radius=50,xspeed=0,yspeed=-20))
+def add_object(position=(300,300),radius=30,xspeed=5,yspeed=0):
+    objects.add(Sphere(position,radius=radius,xspeed=xspeed,yspeed=yspeed))
 
 def update(screen):
     objects.update(screen)
