@@ -20,10 +20,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             raise PhysicsObjectError("User tried to QUIT")
-    
 
     screen.fill((255,255,255))
-    Object.update(screen)
+    for i in range(1):
+        Object.update(screen)
 
     clock.tick(90)
     pygame.display.flip()

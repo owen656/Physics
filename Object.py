@@ -33,7 +33,7 @@ class Sphere(pygame.sprite.Sprite):
         self.xspeed *= friction
         self.yspeed *= friction
         self.xspeed *= 0.99
-        self.yspeed *= 0.97
+        self.yspeed *= 0.93
 
         if self.xspeed == 0 and self.yspeed == 0:
             if self.rect.bottom >= self.screen_height - 1:
@@ -43,21 +43,37 @@ class Sphere(pygame.sprite.Sprite):
         if self.rect.left <= 0:
             self.rect.left = 0
             self.xspeed = -self.xspeed * bounciness * random.uniform(1-randomness, 1+randomness)
+            if self.rect.left < 0:
+                self.rect.left = 0
+                self.x += self.xspeed
+                self.y += self.yspeed
         elif self.rect.right >= self.screen_length:
             self.rect.right = self.screen_length
             self.xspeed = -self.xspeed * bounciness * random.uniform(1-randomness, 1+randomness)
+            if self.rect.right > self.screen_length:
+                self.rect.right = self.screen_length
+                self.x += self.xspeed
+                self.y += self.yspeed
         elif self.rect.top <= 0:
             self.rect.top = 0
             self.yspeed = -self.yspeed * bounciness * random.uniform(1-randomness, 1+randomness)
+            if self.rect.top < 0:
+                self.rect.top = 0
+                self.x += self.xspeed
+                self.y += self.yspeed
         elif self.rect.bottom >= self.screen_height:
             self.rect.bottom = self.screen_height
             self.yspeed = -self.yspeed * bounciness * random.uniform(1-randomness, 1+randomness)
+            if self.rect.bottom > self.screen_height:
+                self.rect.bottom = self.screen_height
+                self.x += self.xspeed
+                self.y += self.yspeed
         else:
             self.yspeed += gravity * air_resistance * self.radius *  math.pi / 15
 
-        if self.xspeed < 0.5 and self.xspeed > -0.5:
+        if self.xspeed < 1 and self.xspeed > -1:
             self.xspeed = 0
-        if self.yspeed < 0.5 and self.yspeed > -0.5:
+        if self.yspeed < 1 and self.yspeed > -1:
             self.yspeed = 0
         
         for _object in objects:
